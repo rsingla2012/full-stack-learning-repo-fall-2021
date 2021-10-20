@@ -2,11 +2,13 @@ const express = require("express");
 const cors = require("cors");
 const admin = require("firebase-admin");
 const dotenv = require("dotenv").config();
-const credentials = require("./cred").credentials;
+// const credentials = require("./cred").credentials;
+const credentials = require("./cred.json");
 
 // Connect to firebase and use firestore
 admin.initializeApp({
   credential: admin.credential.cert(credentials),
+  //databaseURL: "unicorn-7cd01.firebaseapp.com",
   databaseURL: "YOUR_DATABASE_URL_HERE",
 });
 
@@ -52,7 +54,20 @@ app.post("/users", async (req, res) => {
   }
 });
 
+const age=18;
+
 // TODO: Create query for users that are older than a given value
+app.get("/users", async (req, res) => {
+  const snapshot = await db.collection("users").get();
+  const users = [];
+  snapshot.forEach((doc) => {
+    const age= doc.data().Age; 
+    if (age>10)
+      users.push(age);
+  });
+  return res.json({ msg: "running second method", data: users });
+});
+
 // OPTIONAL: Write a function to delete users from the database
 // OPTIONAL: Write a function to update user information
 
