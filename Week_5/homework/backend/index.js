@@ -24,7 +24,18 @@ app.use(cors());
 app.use(express.json());
 
 // Get all Users
-app.get("/users", async (req, res) => {
+app.get("/users", async(req, res) => {
+  const snapshot = await db.collection("users").get();
+  const users = [];
+  snapshot.forEach((doc) => {
+    const age= doc.data().Age; 
+    if (age>10)
+      users.push(age);
+  });
+  return res.json({ msg: "Success", data: users });
+});
+
+app.get("/users/", async (req, res, age) => {
   const snapshot = await db.collection("users").get();
   const users = [];
   snapshot.forEach((doc) => {
@@ -35,6 +46,7 @@ app.get("/users", async (req, res) => {
 
 // Create user
 app.post("/users", async (req, res) => {
+  console.log("inside post");
   const body = req.body;
   console.log(body);
   const docRef = await db.collection("users").doc(body.name);
@@ -57,13 +69,15 @@ app.post("/users", async (req, res) => {
 const age=18;
 
 // TODO: Create query for users that are older than a given value
-app.get("/users", async (req, res) => {
+
+app.get("/users:reqAge", async(req, res) => {
   const snapshot = await db.collection("users").get();
   const users = [];
+  const reqAge = req.params.reqAge
   snapshot.forEach((doc) => {
     const age= doc.data().Age; 
-    if (age>10)
-      users.push(age);
+    if(parseInt(doc_data['Age']) > parseInt(ageMin)) {
+      users.push(doc.data());}
   });
   return res.json({ msg: "running second method", data: users });
 });
