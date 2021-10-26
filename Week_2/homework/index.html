@@ -7,8 +7,118 @@
   <meta name="description" content="" />
 </head>
 <body>
+  <h1 id="name"></h1>
+  <h2>Introduction</h2>
+  <p id="intro"></p>
+  <h2>Education</h2>
+  <ul id="education"></ul>
+  <h2>My Experience</h2>
+  <ul id="expList"></ul>
+  <h2>Interests</h2>
+  <ul id="interestsList"></ul>
+  <h2>Contact Me At</h2>
+  <a href id="emailAdd"></a>
+  <p id="phone"></p>
+  <h2>My Address</h2>
+  <p id="address"></p>
+  <img src= "https://drive.google.com/file/d/1SdrZXraScmR8HbV0qRNvyY2wP5f0a-ZP/view?usp=sharing"/>
   <script>
-    // add the resume object here
+  let info = {
+    "basics": {
+        "name":"Riya Singla", 
+        "image": "https://drive.google.com/file/d/1SdrZXraScmR8HbV0qRNvyY2wP5f0a-ZP/view?usp=sharing", 
+        "emailAdd":"riyasingla2012@yahoo.com", 
+        "phone": "(972) 757-7250", 
+        "summary": "Hi! My name is Riya and I'm an econ freshman at UT Austin. I love business and computer science and am looking forward to diving deeper into software development in the future", 
+        "location": 
+            {"address": "4445 Caledonia Creek Lane", 
+                "postalCode": "75024", 
+                "city": "Plano", 
+                "countryCode": "+1", 
+                "region": "Texas"}, 
+                
+        "work":[{
+            "name":"UTSW", 
+            "position": "Research intern", 
+            "url":"https://www.google.com/search?gs_ssp=eJzj4tTP1TcwqjApMjVg9OIvLVEozi8tyShPLS5JLcoDAHhjCWI&q=ut+southwestern&oq=uts+sou&aqs=chrome.1.69i57j46i10i433j0i10l6j46i10i433.3759j0j4&sourceid=chrome&ie=UTF-8", 
+            "startDate": "2020-04-16",
+            "endDate": "2021-11-16", 
+            "summary": "research"}], 
+            
+        education: [{
+            inst: "The University of Texas at Austin", 
+            url: "https://www.utexas.edu/", 
+            major: "Economics", 
+            studyType: "Bachelor", 
+            startDate: "2021-08-25", 
+            endDate: "2025-05-25"}],
+
+        "interests": ["kickboxing", "baking"]
+        }
+      };
+      resume_info = JSON.parse(JSON.stringify(info));
+      document.getElementById("name").innerHTML = resume_info.basics.name;
+      document.getElementById("intro").innerHTML = resume_info.basics.summary;
+      education = document.getElementById("education");
+      //console.log("working");
+      //console.log(resume_info.basics.education);
+      for (const x of resume_info.basics.education) {
+        console.log(x);
+        inst = document.createElement("li");
+        link = document.createElement("a");
+        link.setAttribute("href", x.url);
+        link.innerHTML = x.inst;
+        inst.appendChild(link);
+        education.appendChild(inst);
+        expList = document.createElement("ul");
+        inst.appendChild(expList);
+        major = document.createElement("li");
+        major.innerHTML = x.studyType + " in " + x.major;
+        expList.appendChild(major);
+        dateInst = document.createElement("li");
+        dateInst.innerHTML = x.startDate + " - " + x.endDate;
+        expList.appendChild(date);
+      }
+      list = document.getElementById("expList");
+      for (var x of resume_info.basics.work) {
+        job_bullet = document.createElement("li");
+        link = document.createElement("a");
+        link.setAttribute("href", x.url);
+        link.innerHTML = x.name;
+        job_bullet.appendChild(link);
+        list.appendChild(job_bullet);
+        list_for_job = document.createElement("ul");
+        job_bullet.appendChild(list_for_job);
+        time = document.createElement("li");
+        time.innerHTML = x.startDate + " to " + x.endDate;
+        list_for_job.appendChild(time);
+        role = document.createElement("li");
+        role.innerHTML = x.position;
+        list_for_job.appendChild(role);
+        desc = document.createElement("li");
+        desc.innerHTML = x.summary;
+        list_for_job.appendChild(desc);
+      }
+      interests = document.getElementById("interestsListt");
+      for (const x of resume_info.basics.interests) {
+        interest = document.createElement("li");
+        interest.innerHTML = x;
+        interests.appendChild(interest);
+      }
+
+      emailAdd = document.getElementById("emailAdd");
+      emailAdd.innerHTML = resume_info.basics.emailAdd;
+      phoneNum = document.getElementById("phone");
+      phoneNum.innerHTML = resume_info.basics.phone;
+      address = document.getElementById("address");
+      address.innerHTML = resume_info.basics.location.address + " " + resume_info.basics.location.city + " " + resume_info.basics.location.reigon + " " + resume_info.basics.location.postalCode;
+  </script>
+  
+</body>
+
+
+</html>
+
   </script>
 </body>
-</html>
+</html
