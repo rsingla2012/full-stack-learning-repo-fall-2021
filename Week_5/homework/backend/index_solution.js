@@ -2,16 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const admin = require("firebase-admin");
 const dotenv = require("dotenv").config();
-<<<<<<< HEAD
-// const credentials = require("./cred").credentials;
-=======
->>>>>>> upstream/main
 const credentials = require("./cred.json");
 
 // Connect to firebase and use firestore
 admin.initializeApp({
   credential: admin.credential.cert(credentials),
-  //databaseURL: "unicorn-7cd01.firebaseapp.com",
   databaseURL: "YOUR_DATABASE_URL_HERE",
 });
 
@@ -27,18 +22,7 @@ app.use(cors());
 app.use(express.json());
 
 // Get all Users
-app.get("/users", async(req, res) => {
-  const snapshot = await db.collection("users").get();
-  const users = [];
-  snapshot.forEach((doc) => {
-    const age= doc.data().Age; 
-    if (age>10)
-      users.push(age);
-  });
-  return res.json({ msg: "Success", data: users });
-});
-
-app.get("/users/", async (req, res, age) => {
+app.get("/users", async (req, res) => {
   const snapshot = await db.collection("users").get();
   const users = [];
   snapshot.forEach((doc) => {
@@ -49,7 +33,6 @@ app.get("/users/", async (req, res, age) => {
 
 // Create user
 app.post("/users", async (req, res) => {
-  console.log("inside post");
   const body = req.body;
   console.log(body);
   const docRef = await db.collection("users").doc(body.name);
@@ -69,25 +52,26 @@ app.post("/users", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-const age=18;
-
 // TODO: Create query for users that are older than a given value
+app.get("/users/:age", async (req, res) => {
+  const age = parseInt(req.params.age);
+  // Invalid Parameters
+  if (isNaN(age)) {
+    return res.status(400).json({ msg: "Invalid Input" });
+  }
 
-app.get("/users:reqAge", async(req, res) => {
-  const snapshot = await db.collection("users").get();
+  // Verify the validity of the age parameter
+  const snapshot = await db.collection("users").where("age", ">=", age).get();
   const users = [];
-  const reqAge = req.params.reqAge
+
+  // Iterate Through each element
   snapshot.forEach((doc) => {
-    const age= doc.data().Age; 
-    if(parseInt(doc_data['Age']) > parseInt(ageMin)) {
-      users.push(doc.data());}
+    users.push(doc.data());
   });
-  return res.json({ msg: "running second method", data: users });
+
+  return res.json({ msg: "Success", data: users });
 });
 
-=======
->>>>>>> upstream/main
 // OPTIONAL: Write a function to delete users from the database
 // OPTIONAL: Write a function to update user information
 
